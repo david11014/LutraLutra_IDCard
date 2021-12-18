@@ -1,6 +1,5 @@
 <!doctype html>
 <html dir="ltr" lang="zh">
-
 <head>
   <meta charset="utf-8">
   <title>LutraLutra ID Card</title>
@@ -15,29 +14,29 @@
     }
   </style>
   <script type="text/javascript">
-    function draw() {
-      var canvas = document.getElementById('ID_card');
-      const image = new Image(1080, 720); // Using optional size for image
-      image.onload = draw;                // Draw when image has loaded
-      image.src = './ID_Card_bg1.jpg';
+    const BGImage = new Image(1080, 720); // Using optional size for image
+    BGImage.onload = function() {  draw(); }
+    BGImage.src = './ID_Card_bg1.jpg';
 
-      if (canvas.getContext) {
+    function draw() {
+      if (document.getElementById('ID_card')) {
+        var canvas = document.getElementById('ID_card');
         var ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0, 1080, 720);
+        ctx.drawImage(BGImage, 0, 0, 1080, 720);
         ctx.font = 'bold 35pt PT Mono';
-        ctx.font.w
         ctx.fillText(document.getElementById("Neme_input").value, 590, 225);
         ctx.fillText(document.getElementById("ID_input").value, 660, 375);
         ctx.fillText(document.getElementById("Birth_input").value, 660, 465);
         ctx.fillText(document.getElementById("BloodType_input").value, 590, 565);
       }
     }
+  
     function GenerateImg() {
       var canvas = document.getElementById('ID_card');
-      var image = new Image();
-      image.src = canvas.toDataURL();
+      var OutputImage = new Image();
+      OutputImage.src = canvas.toDataURL();
       var OutputWindow = window.open("");
-      OutputWindow.document.write(image.outerHTML);
+      OutputWindow.document.write(OutputImage.outerHTML);
     }
   </script>
 </head>
@@ -50,5 +49,4 @@
   <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
   <canvas id="ID_card" width="1080" height="720"></canvas>
 </body>
-
 </html>
