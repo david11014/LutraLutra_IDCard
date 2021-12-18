@@ -1,5 +1,6 @@
 <!doctype html>
 <html dir="ltr" lang="zh">
+
 <head>
   <meta charset="utf-8">
   <title>LutraLutra ID Card</title>
@@ -68,61 +69,7 @@
       color: black;
       padding: 1rem;
     }
-
   </style>
-  <script type="text/javascript">
-    const PicWidth = 1080;
-    const PicHeight = 1080;
-
-    const BGImage1 = new Image(PicWidth, PicHeight); // Using optional size for image
-    const BGImage2 = new Image(PicWidth, PicHeight); // Using optional size for image
-    BGImage1.src = 'https://david11014.github.io/LutraLutra_IDCard/ID_Card_bg1.jpg';
-    BGImage2.src = 'https://david11014.github.io/LutraLutra_IDCard/ID_Card_bg2.jpg';
-    BGImage2.onload = draw;
-
-    function DrawCanvas(canvas) {
-      if (document.getElementById('ID_card')) {
-        var ctx = canvas.getContext('2d');
-
-        if( document.getElementById('Sel_BG1').checked == true ) {
-          BGImage1.setAttribute('crossorigin', 'anonymous');
-          ctx.drawImage(BGImage1, 0, 0, 1080, 720);
-        }
-        else {
-          BGImage2.setAttribute('crossorigin', 'anonymous');
-          ctx.drawImage(BGImage2, 0, 0, 1080, 720);
-        }
-
-        ctx.font = 'bold 35pt PTMonoBold';
-        DrawMultiLine( ctx, document.getElementById("Name_input").value, 590, 225, 50 );
-        ctx.fillText(document.getElementById("ID_input").value, 660, 375);
-        ctx.fillText(document.getElementById("Birth_input").value, 660, 465);
-        ctx.fillText(document.getElementById("BloodType_input").value, 590, 565);
-      }
-    }
-
-    function draw() {
-      var canvas = document.getElementById('ID_card');
-      DrawCanvas(canvas);
-    }
-
-    function GenerateImg() {
-      var canvas = document.getElementById('ID_card');
-      DrawCanvas(canvas);
-
-      var OutputImage = new Image();
-      OutputImage.src = canvas.toDataURL();
-      var OutputWindow = window.open("");
-      OutputWindow.document.write(OutputImage.outerHTML);
-    }
-
-    function DrawMultiLine( ctx, text, x, y, LineHeight ) {
-      var lines = text.split('\n');
-      for (var i = 0; i<lines.length; i++) {
-        ctx.fillText(lines[i], x, y + (i*LineHeight) );
-      }
-    }
-  </script>
 </head>
 
 <body onload="draw()">
@@ -141,6 +88,14 @@
       <p>出生日期:<input id="Birth_input" value="???/05/29" onkeyup="draw()"></input></p>
       <p>血型:<input id="BloodType_input" value="S" onkeyup="draw()"></input></p>
       <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
+
+
+      <p>---- 大頭貼(施工中) ----</p>
+      <p><input type="file" id="myFile"></input></p>
+      <p>位置 X:<input id="X_input" value="17"></p>
+      <p>位置 Y:<input id="Y_input" value="177"></p>
+      <p>縮放:<input id="Scale_input" value="100">%</p>
+
     </div>
     <div class="column" id="Output">
       <canvas id="ID_card" width="1080" height="720"></canvas>
@@ -148,10 +103,105 @@
   </div>
   <footer>
     此為粉絲二次創作網頁，部分素材圖片版權為<a href="https://www.facebook.com/%E6%98%A5%E9%AD%9A%E5%B7%A5%E4%BD%9C%E5%AE%A4Springfish-Studio-797154620649410/">春魚工作室<a>所有
-    <br/>
+    <br />
     圖片素材 from <a href="https://lit.link/lutralutra"> 露恰露恰 ch.LutraLutra<a>二創素材
-    <br/>
+    <br />
     感謝露軍 冥思韹樂起，羽乃香風吹(六巡) 設計底圖
   </footer>
+  <script type="text/javascript">
+    const PicWidth = 1080;
+    const PicHeight = 720;
+
+    const BGImage1 = new Image(PicWidth, PicHeight); // Using optional size for image
+    const BGImage2 = new Image(PicWidth, PicHeight); // Using optional size for image
+    BGImage1.src = 'https://david11014.github.io/LutraLutra_IDCard/ID_Card_bg1.jpg';
+    BGImage2.src = 'https://david11014.github.io/LutraLutra_IDCard/ID_Card_bg2.jpg';
+    BGImage2.onload = draw;
+
+    var AvatarFiles;
+    const AvatorWidth = 370;
+    const AvatorHeight = 476;
+    var Avator = new Image();
+
+    function DrawCanvas(canvas) {
+      if (document.getElementById('ID_card')) {
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = "black"
+
+        if (document.getElementById('Sel_BG1').checked == true) {
+          BGImage1.setAttribute('crossorigin', 'anonymous');
+          ctx.drawImage(BGImage1, 0, 0, 1080, 720);
+        }
+        else {
+          BGImage2.setAttribute('crossorigin', 'anonymous');
+          ctx.drawImage(BGImage2, 0, 0, 1080, 720);
+        }
+
+        ctx.font = 'bold 35pt PTMonoBold';
+        DrawMultiLine(ctx, document.getElementById("Name_input").value, 590, 225, 50);
+        ctx.fillText(document.getElementById("ID_input").value, 660, 375);
+        ctx.fillText(document.getElementById("Birth_input").value, 660, 465);
+        ctx.fillText(document.getElementById("BloodType_input").value, 590, 565);
+      }
+
+      if (AvatarFiles && AvatarFiles.length) {
+        // fill background color
+        ctx.fillStyle = "rgb(218,224,222)";
+        ctx.fillRect(17, 177, AvatorWidth, AvatorHeight );
+
+        ctx.drawImage(Avator,
+                      document.getElementById("X_input").value,
+                      document.getElementById("Y_input").value,
+                      Avator.width * ( document.getElementById("Scale_input").value / 100 ),
+                      Avator.height * ( document.getElementById("Scale_input").value / 100 ));
+      }
+
+      
+    }
+
+    function draw() {
+      var canvas = document.getElementById('ID_card');
+      DrawCanvas(canvas);
+    }
+
+    function GenerateImg() {
+      var canvas = document.getElementById('ID_card');
+      DrawCanvas(canvas);
+
+      var OutputImage = new Image();
+      OutputImage.src = canvas.toDataURL();
+      var OutputWindow = window.open("");
+      OutputWindow.document.write(OutputImage.outerHTML);
+    }
+
+    function DrawMultiLine(ctx, text, x, y, LineHeight) {
+      var lines = text.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], x, y + (i * LineHeight));
+      }
+    }
+
+    function ChangeImage(evt) {
+      var tgt = evt.target || window.event.srcElement;
+      AvatarFiles = tgt.files;
+
+      if (FileReader && AvatarFiles && AvatarFiles.length) {
+        var fr = new FileReader();
+        fr.onload = () => showImage(fr);
+        fr.readAsDataURL(AvatarFiles[0]);
+      }
+    }
+
+    function showImage(fileReader) {
+      Avator.src = fileReader.result;
+      Avator.onload = draw;
+    }
+
+    document.getElementById('myFile').onchange = ChangeImage;
+    document.getElementById('X_input').onkeyup = draw;
+    document.getElementById('Y_input').onkeyup = draw;
+    document.getElementById('Scale_input').onkeyup = draw;
+  </script>
 </body>
+
 </html>
