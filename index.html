@@ -1,50 +1,54 @@
 <!doctype html>
 <html dir="ltr" lang="zh">
-  <head>
-    <meta charset="utf-8">
-    <title>新分頁</title>
-    <script type="text/javascript">
-      function draw(){
-        var canvas = document.getElementById('ID_card');
-        const image = new Image(1080, 720); // Using optional size for image
-        image.onload = draw;                // Draw when image has loaded
-        image.src = './ID_Card_bg1.jpg';
-        //image.setAttribute("crossOrigin",'Anonymous');
-        if (canvas.getContext){
-          var ctx = canvas.getContext('2d');
 
-          ctx.drawImage(image, 0, 0, 1080, 720 );
+<head>
+  <meta charset="utf-8">
+  <title>LutraLutra ID Card</title>
+  <link rel="stylesheet" href="./ptmonoweb/stylesheet.css" type="text/css" charset="utf-8">
+  <style type="text/css">
+    canvas {
+      border: 1px solid black;
+    }
 
-          ctx.font = "35pt Arial Bold";
-          ctx.fillText( document.getElementById("Neme_input").value, 590, 225 );
+    img {
+      border: 1px solid blue;
+    }
+  </style>
+  <script type="text/javascript">
+    function draw() {
+      var canvas = document.getElementById('ID_card');
+      const image = new Image(1080, 720); // Using optional size for image
+      image.onload = draw;                // Draw when image has loaded
+      image.src = './ID_Card_bg1.jpg';
 
-          ctx.fillText( document.getElementById("ID_input").value, 660, 375 );
-
-          ctx.fillText( document.getElementById("Birth_input").value, 660, 465 );
-
-          ctx.fillText( document.getElementById("BloodType_input").value, 590, 565 );
-
-        }
+      if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(image, 0, 0, 1080, 720);
+        ctx.font = 'bold 35pt PT Mono';
+        ctx.font.w
+        ctx.fillText(document.getElementById("Neme_input").value, 590, 225);
+        ctx.fillText(document.getElementById("ID_input").value, 660, 375);
+        ctx.fillText(document.getElementById("Birth_input").value, 660, 465);
+        ctx.fillText(document.getElementById("BloodType_input").value, 590, 565);
       }
-      function GenerateImg() {
-        var canvas = document.getElementById('ID_card');
-        var image = new Image();
-        image.src = canvas.toDataURL();
-        var OutputWindow = window.open("");
-        OutputWindow.document.write(image.outerHTML);
-      }
-    </script>
-    <style type="text/css">
-      canvas { border: 1px solid black; }
-      img { border: 1px solid blue; }
-    </style>
-  </head>
-  <body onload="draw();">
-    <p>姓名:<input id="Neme_input" value="露恰露恰"></input ></p>
-    <p>兵籍編號:<input id="ID_input" value="L206767888"></input ></p>
-    <p>出生日期:<input id="Birth_input" value="???/05/29"></input ></p>
-    <p>血型:<input id="BloodType_input" value="S"></input ></p>
-    <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
-    <canvas id="ID_card" width="1080" height="720"></canvas>
-  </body>
+    }
+    function GenerateImg() {
+      var canvas = document.getElementById('ID_card');
+      var image = new Image();
+      image.src = canvas.toDataURL();
+      var OutputWindow = window.open("");
+      OutputWindow.document.write(image.outerHTML);
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+  <p>姓名:<input id="Neme_input" value="露恰露恰" onkeyup="draw()"></input></p>
+  <p>兵籍編號:<input id="ID_input" value="L206767888" onkeyup="draw()"></input></p>
+  <p>出生日期:<input id="Birth_input" value="???/05/29" onkeyup="draw()"></input></p>
+  <p>血型:<input id="BloodType_input" value="S" onkeyup="draw()"></input></p>
+  <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
+  <canvas id="ID_card" width="1080" height="720"></canvas>
+</body>
+
 </html>
