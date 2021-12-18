@@ -34,7 +34,7 @@
         }
 
         ctx.font = 'bold 35pt PTMonoBold';
-        ctx.fillText(document.getElementById("Neme_input").value, 590, 225);
+        DrawMultiLine( ctx, document.getElementById("Name_input").value, 590, 225, 50 );
         ctx.fillText(document.getElementById("ID_input").value, 660, 375);
         ctx.fillText(document.getElementById("Birth_input").value, 660, 465);
         ctx.fillText(document.getElementById("BloodType_input").value, 590, 565);
@@ -48,6 +48,13 @@
       var OutputWindow = window.open("");
       OutputWindow.document.write(OutputImage.outerHTML);
     }
+
+    function DrawMultiLine( ctx, text, x, y, LineHeight ) {
+      var lines = text.split('\n');
+      for (var i = 0; i<lines.length; i++) {
+        ctx.fillText(lines[i], x, y + (i*LineHeight) );
+      }
+    }
   </script>
 </head>
 
@@ -59,6 +66,8 @@
     <input type="radio" id="Sel_BG2" name="BG_Sel" value="2" onclick="draw()">
     <label for="BG1">BG2</label><br>
   </form>
+  <p>姓名:</p>
+  <textarea id="Name_input" cols="12" rows="3" onkeyup="draw()">露恰露恰</textarea>
   <p>兵籍編號:<input id="ID_input" value="L206767888" onkeyup="draw()"></input></p>
   <p>出生日期:<input id="Birth_input" value="???/05/29" onkeyup="draw()"></input></p>
   <p>血型:<input id="BloodType_input" value="S" onkeyup="draw()"></input></p>
