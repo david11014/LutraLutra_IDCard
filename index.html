@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>LutraLutra ID Card</title>
-  <link rel="stylesheet" href="./ptmonoweb/stylesheet.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="./ptmonoweb/PTM55F_stylesheet.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="./ptmonoweb/PTM75F_stylesheet.css" type="text/css" charset="utf-8">
   <style type="text/css">
     canvas {
       border: 1px solid black;
@@ -23,7 +24,7 @@
         var canvas = document.getElementById('ID_card');
         var ctx = canvas.getContext('2d');
         ctx.drawImage(BGImage, 0, 0, 1080, 720);
-        ctx.font = 'bold 35pt PT Mono';
+        ctx.font = 'bold 35pt PTMonoBold';
         ctx.fillText(document.getElementById("Neme_input").value, 590, 225);
         ctx.fillText(document.getElementById("ID_input").value, 660, 375);
         ctx.fillText(document.getElementById("Birth_input").value, 660, 465);
