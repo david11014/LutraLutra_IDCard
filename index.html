@@ -15,15 +15,24 @@
     }
   </style>
   <script type="text/javascript">
-    const BGImage = new Image(1080, 720); // Using optional size for image
-    BGImage.onload = function() {  draw(); }
-    BGImage.src = './ID_Card_bg1.jpg';
+    const BGImage1 = new Image(1080, 720); // Using optional size for image
+    const BGImage2 = new Image(1080, 720); // Using optional size for image
+    BGImage1.src = './ID_Card_bg1.jpg';
+    BGImage2.src = './ID_Card_bg2.jpg';
+    BGImage2.onload = draw;
 
     function draw() {
       if (document.getElementById('ID_card')) {
         var canvas = document.getElementById('ID_card');
         var ctx = canvas.getContext('2d');
-        ctx.drawImage(BGImage, 0, 0, 1080, 720);
+
+        if( document.getElementById('Sel_BG1').checked == true ) {
+          ctx.drawImage(BGImage1, 0, 0, 1080, 720);
+        }
+        else {
+          ctx.drawImage(BGImage2, 0, 0, 1080, 720);
+        }
+
         ctx.font = 'bold 35pt PTMonoBold';
         ctx.fillText(document.getElementById("Neme_input").value, 590, 225);
         ctx.fillText(document.getElementById("ID_input").value, 660, 375);
@@ -43,7 +52,13 @@
 </head>
 
 <body onload="draw()">
-  <p>姓名:<input id="Neme_input" value="露恰露恰" onkeyup="draw()"></input></p>
+  <form action="/action_page.php">
+    <p>背景圖</p>
+    <input type="radio" id="Sel_BG1" name="BG_Sel" value="1" onclick="draw()" checked>
+    <label for="BG1">BG1</label><br>
+    <input type="radio" id="Sel_BG2" name="BG_Sel" value="2" onclick="draw()">
+    <label for="BG1">BG2</label><br>
+  </form>
   <p>兵籍編號:<input id="ID_input" value="L206767888" onkeyup="draw()"></input></p>
   <p>出生日期:<input id="Birth_input" value="???/05/29" onkeyup="draw()"></input></p>
   <p>血型:<input id="BloodType_input" value="S" onkeyup="draw()"></input></p>
