@@ -89,12 +89,11 @@
       <p>血型:<input id="BloodType_input" value="S" onkeyup="draw()"></input></p>
       <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
 
-
-      <p>---- 大頭貼(施工中) ----</p>
+      <p>大頭貼</p>
       <p><input type="file" id="myFile"></input></p>
-      <p>位置 X:<input id="X_input" value="17"></p>
-      <p>位置 Y:<input id="Y_input" value="177"></p>
-      <p>縮放:<input id="Scale_input" value="100">%</p>
+      <p>位置 X:<input id="X_input" type="range"></p>
+      <p>位置 Y:<input id="Y_input" type="range"></p>
+      <p>縮放:<input id="Scale_input" type="range"></p>
 
     </div>
     <div class="column" id="Output">
@@ -119,9 +118,11 @@
     BGImage2.onload = draw;
 
     var AvatarFiles;
-    const AvatorWidth = 370;
-    const AvatorHeight = 476;
-    var Avator = new Image();
+    const AvatarX = 17;
+    const AvatarY = 177;
+    const AvatarWidth = 370;
+    const AvatarHeight = 476;
+    var Avatar = new Image();
 
     function DrawCanvas(canvas) {
       if (document.getElementById('ID_card')) {
@@ -147,13 +148,13 @@
       if (AvatarFiles && AvatarFiles.length) {
         // fill background color
         ctx.fillStyle = "rgb(218,224,222)";
-        ctx.fillRect(17, 177, AvatorWidth, AvatorHeight );
+        ctx.fillRect(AvatarX, AvatarY, AvatarWidth, AvatarHeight );
 
-        ctx.drawImage(Avator,
+        ctx.drawImage(Avatar,
                       document.getElementById("X_input").value,
                       document.getElementById("Y_input").value,
-                      Avator.width * ( document.getElementById("Scale_input").value / 100 ),
-                      Avator.height * ( document.getElementById("Scale_input").value / 100 ));
+                      Avatar.width * ( document.getElementById("Scale_input").value / 100 ),
+                      Avatar.height * ( document.getElementById("Scale_input").value / 100 ));
       }
 
       
@@ -193,14 +194,27 @@
     }
 
     function showImage(fileReader) {
-      Avator.src = fileReader.result;
-      Avator.onload = draw;
+      Avatar.src = fileReader.result;
+      Avatar.onload = draw;
     }
 
     document.getElementById('myFile').onchange = ChangeImage;
-    document.getElementById('X_input').onkeyup = draw;
-    document.getElementById('Y_input').onkeyup = draw;
-    document.getElementById('Scale_input').onkeyup = draw;
+
+    document.getElementById('X_input').min = AvatarX;
+    document.getElementById('X_input').max = AvatarX + AvatarWidth;
+    document.getElementById('X_input').value = AvatarX;
+    document.getElementById('X_input').oninput = draw;
+
+    document.getElementById('Y_input').min = AvatarY;
+    document.getElementById('Y_input').max = AvatarY + AvatarHeight
+    document.getElementById('Y_input').value = AvatarY;
+    document.getElementById('Y_input').oninput = draw;
+
+    document.getElementById('Scale_input').min = 1;
+    document.getElementById('Scale_input').max = 200
+    document.getElementById('Scale_input').value = 100;
+    document.getElementById('Scale_input').oninput = draw;
+
   </script>
 </body>
 
