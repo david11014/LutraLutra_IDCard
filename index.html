@@ -10,26 +10,51 @@
       border: 1px solid black;
     }
 
-    img {
-      border: 1px solid blue;
+    * {
+      box-sizing: border-box;
     }
+
+    /* Create two equal columns that floats next to each other */
+    #Setting {
+      float: left;
+      width: 20%;
+      padding: 10px;
+    }
+
+    #Output {
+      float: left;
+      width: 80%;
+      padding: 10px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
   </style>
   <script type="text/javascript">
-    const BGImage1 = new Image(1080, 720); // Using optional size for image
-    const BGImage2 = new Image(1080, 720); // Using optional size for image
-    BGImage1.src = './ID_Card_bg1.jpg';
-    BGImage2.src = './ID_Card_bg2.jpg';
+    const PicWidth = 1080;
+    const PicHeight = 1080;
+
+    const BGImage1 = new Image(PicWidth, PicHeight); // Using optional size for image
+    const BGImage2 = new Image(PicWidth, PicHeight); // Using optional size for image
+    BGImage1.src = 'https://david11014.github.io/LutraLutra_IDCard/ID_Card_bg1.jpg';
+    BGImage2.src = 'https://david11014.github.io/LutraLutra_IDCard/ID_Card_bg2.jpg';
     BGImage2.onload = draw;
 
-    function draw() {
+    function DrawCanvas(canvas) {
       if (document.getElementById('ID_card')) {
-        var canvas = document.getElementById('ID_card');
         var ctx = canvas.getContext('2d');
 
         if( document.getElementById('Sel_BG1').checked == true ) {
+          BGImage1.setAttribute('crossorigin', 'anonymous');
           ctx.drawImage(BGImage1, 0, 0, 1080, 720);
         }
         else {
+          BGImage2.setAttribute('crossorigin', 'anonymous');
           ctx.drawImage(BGImage2, 0, 0, 1080, 720);
         }
 
@@ -40,9 +65,16 @@
         ctx.fillText(document.getElementById("BloodType_input").value, 590, 565);
       }
     }
-  
+
+    function draw() {
+      var canvas = document.getElementById('ID_card');
+      DrawCanvas(canvas);
+    }
+
     function GenerateImg() {
       var canvas = document.getElementById('ID_card');
+      DrawCanvas(canvas);
+
       var OutputImage = new Image();
       OutputImage.src = canvas.toDataURL();
       var OutputWindow = window.open("");
@@ -59,19 +91,25 @@
 </head>
 
 <body onload="draw()">
-  <form action="/action_page.php">
-    <p>背景圖</p>
-    <input type="radio" id="Sel_BG1" name="BG_Sel" value="1" onclick="draw()" checked>
-    <label for="BG1">BG1</label><br>
-    <input type="radio" id="Sel_BG2" name="BG_Sel" value="2" onclick="draw()">
-    <label for="BG1">BG2</label><br>
-  </form>
-  <p>姓名:</p>
-  <textarea id="Name_input" cols="12" rows="3" onkeyup="draw()">露恰露恰</textarea>
-  <p>兵籍編號:<input id="ID_input" value="L206767888" onkeyup="draw()"></input></p>
-  <p>出生日期:<input id="Birth_input" value="???/05/29" onkeyup="draw()"></input></p>
-  <p>血型:<input id="BloodType_input" value="S" onkeyup="draw()"></input></p>
-  <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
-  <canvas id="ID_card" width="1080" height="720"></canvas>
+  <div class="row">
+    <div class="column" id="Setting">
+      <form action="/action_page.php">
+        <p>背景圖</p>
+        <input type="radio" id="Sel_BG1" name="BG_Sel" value="1" onclick="draw()" checked>
+        <label for="BG1">BG1</label><br>
+        <input type="radio" id="Sel_BG2" name="BG_Sel" value="2" onclick="draw()">
+        <label for="BG1">BG2</label><br>
+      </form>
+      <p>姓名:</p>
+      <textarea id="Name_input" cols="12" rows="3" onkeyup="draw()">露恰露恰</textarea>
+      <p>兵籍編號:<input id="ID_input" value="L206767888" onkeyup="draw()"></input></p>
+      <p>出生日期:<input id="Birth_input" value="???/05/29" onkeyup="draw()"></input></p>
+      <p>血型:<input id="BloodType_input" value="S" onkeyup="draw()"></input></p>
+      <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
+    </div>
+    <div class="column" id="Output">
+      <canvas id="ID_card" width="1080" height="720"></canvas>
+    </div>
+  </div>
 </body>
 </html>
