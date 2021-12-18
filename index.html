@@ -1,0 +1,51 @@
+<!doctype html>
+<html dir="ltr" lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <title>新分頁</title>
+    <script type="text/javascript">
+      function draw(){
+        var canvas = document.getElementById('ID_card');
+        const image = new Image(1080, 720); // Using optional size for image
+        image.onload = draw;                // Draw when image has loaded
+        //image.src = 'https://raw.githubusercontent.com/Maker-Village/maker-village.github.io/master/pic/LOGO-2.png';
+        image.src = './ID_Card_bg.jpg';
+        //image.setAttribute("crossOrigin",'Anonymous');
+        if (canvas.getContext){
+          var ctx = canvas.getContext('2d');
+
+          ctx.drawImage(image, 0, 0, 1080, 720 );
+
+          ctx.font = "40pt Arial";
+          ctx.fillText( document.getElementById("Neme_input").value, 580, 230 );
+
+          ctx.fillText( document.getElementById("ID_input").value, 650, 380 );
+
+          ctx.fillText( document.getElementById("Birth_input").value, 650, 470 );
+
+          ctx.fillText( document.getElementById("BloodType_input").value, 580, 570 );
+
+        }
+      }
+      function GenerateImg() {
+        var canvas = document.getElementById('ID_card');
+        var image = new Image();
+        image.src = canvas.toDataURL();
+        var OutputWindow = window.open("");
+        OutputWindow.document.write(image.outerHTML);
+      }
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+      img { border: 1px solid blue; }
+    </style>
+  </head>
+  <body onload="draw();">
+    <p>姓名:<input id="Neme_input" value="露恰露恰"></input ></p>
+    <p>兵籍編號:<input id="ID_input" value="L206767888"></input ></p>
+    <p>出生日期:<input id="Birth_input" value="???/05/29"></input ></p>
+    <p>血型:<input id="BloodType_input" value="S"></input ></p>
+    <p><button type="Generate" onclick="GenerateImg()">產生圖片</button></p>
+    <canvas id="ID_card" width="1080" height="720"></canvas>
+  </body>
+</html>
